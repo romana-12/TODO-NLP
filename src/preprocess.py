@@ -15,8 +15,6 @@ def resolve_overlaps(entities):
         if start >= prev_end:
             non_overlapping.append(ent)
             prev_end = end
-        else:
-            print(f"Overlap detected: Skipping ({start}, {end}, '{ent[2]}')")
     return non_overlapping
 
 # ---------- Load your JSON data ----------
@@ -44,9 +42,7 @@ def save_to_spacy(data, output_path):
         ents = []
         for start, end, label in annotations["entities"]:
             span = doc.char_span(start, end, label=label)
-            if span is None:
-                print(f"Skipping entity ({start}, {end}, {label}) in: {text}")
-            else:
+            if span is not None:
                 ents.append(span)
         doc.ents = ents
         doc_bin.add(doc)

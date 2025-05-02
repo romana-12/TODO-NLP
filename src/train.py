@@ -7,7 +7,7 @@ def load_data(data_path):
     """Load the training data from .spacy file"""
     return list(spacy.tokens.DocBin().from_disk(data_path).get_docs(spacy.blank("en").vocab))
 
-def train_ner_model(train_data_path, output_dir, n_iter=35):
+def train_ner_model(train_data_path, output_dir, n_iter=30):
     """Train a new NER model"""
     # Create a blank English model
     nlp = spacy.blank("en")
