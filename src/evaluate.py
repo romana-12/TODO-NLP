@@ -4,6 +4,7 @@ from spacy.scorer import Scorer
 from spacy.training.example import Example
 from pathlib import Path
 
+
 def load_data(data_path, nlp):
     """Load test data from a .spacy file"""
     doc_bin = DocBin().from_disk(data_path)
@@ -23,13 +24,26 @@ def evaluate_model(model_path, test_data_path):
         example = Example(pred, doc)
         examples.append(example)
 
+#    /* scorer = Scorer()
+#     scores = scorer.score(examples)
+    
+#     print("\n Evaluation Results:")
+#     print(f"Precision: {scores['ents_p']:.2f}")
+#     print(f"Recall:    {scores['ents_r'] :.2f}")
+#     print(f"F1-score:  {scores['ents_f'] :.2f}")*/
+ 
     scorer = Scorer()
     scores = scorer.score(examples)
     
-    print("\n📊 Evaluation Results:")
-    print(f"Precision: {scores['ents_p']:.2f}")
-    print(f"Recall:    {scores['ents_r']:.2f}")
-    print(f"F1-score:  {scores['ents_f']:.2f}")
+    print("\n Evaluation Results:")
+    if scores.get('ents_p') is not None and scores.get('ents_r') is not None and scores.get('ents_f') is not None:
+        print(f"Precision: {scores['ents_p'] * 100:.2f}")
+        print(f"Recall:    {scores['ents_r'] * 100:.2f}")
+        print(f"F1-score:  {scores['ents_f'] * 100:.2f}")
+        
+
+    else:
+        print("Error: Unable to calculate scores. Please check your input data and model.")
 
 if __name__ == "__main__":
     model_path = "models/todo_ner_model"         # Path to trained model
